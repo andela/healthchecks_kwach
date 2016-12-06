@@ -1,6 +1,6 @@
 # healthchecks
 [![CircleCI](https://circleci.com/gh/andela/healthchecks_kwach/tree/develop.svg?style=shield)](https://circleci.com/gh/andela/healthchecks_kwach/tree/develop)
-[![Coverage Status](https://coveralls.io/repos/github/andela/healthchecks_kwach/badge.svg?branch=develop)](https://coveralls.io/github/andela/healthchecks_kwach?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/andela/healthchecks_kwach/badge.svg?branch=test_piv-git_int)](https://coveralls.io/github/andela/healthchecks_kwach?branch=test_piv-git_int)
 
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
 
