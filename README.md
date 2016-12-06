@@ -1,5 +1,5 @@
 # healthchecks
-[![CircleCI](https://circleci.com/gh/andela/healthchecks_kwach/tree/master.svg?style=svg)](https://circleci.com/gh/andela/healthchecks_kwach/tree/master)
+[![CircleCI](https://circleci.com/gh/andela/healthchecks_kwach/tree/master.svg?style=shield)](https://circleci.com/gh/andela/healthchecks_kwach/tree/master)
 
 ![Screenshot of Welcome page](/stuff/screenshots/welcome.png?raw=true "Welcome Page")
 
