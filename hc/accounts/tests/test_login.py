@@ -26,7 +26,8 @@ class LoginTestCase(TestCase):
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, 'Log in to healthchecks.io')
         ### Assert contents of the email body
-        self.assertTrue("To log into healthchecks.io please", mail.outbox[0].body)
+        self.assertIn("To log into healthchecks.io, please open the link below", 
+            mail.outbox[0].body)
 
         ### Assert that check is associated with the new user
         self.test_user = User.objects.get(email="alice@example.org")
