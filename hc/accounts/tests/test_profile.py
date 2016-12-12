@@ -51,10 +51,15 @@ class ProfileTestCase(BaseTestCase):
             member_emails.add(member.user.email)
 
         ### Assert the existence of the member emails
+        self.assertEqual(len(member_emails), 2) #Alice included as member
 
         self.assertTrue("frank@example.org" in member_emails)
 
         ###Assert that the email was sent and check email content
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn("You have been invited to join", mail.outbox[0].subject)
+        self.assertIn("invites you to their healthchecks.io account",
+            mail.outbox[0].body)
 
     def test_add_team_member_checks_team_access_allowed_flag(self):
         self.client.login(username="charlie@example.org", password="password")
@@ -118,3 +123,20 @@ class ProfileTestCase(BaseTestCase):
         self.assertNotContains(r, "bobs-tag.svg")
 
     ### Test it creates and revokes API key
+    def test_it_creates_and_revokes_api_key(self):
+        self.client.login(username="alice@example.org", password="password")
+        form = {"create_api_key":"1"}
+        r = self.client.post("/accounts/profile/", form)
+
+        assert r.status_code==200
+        self.assertIsNotNone(self.alice.profile.api_key)
+        self.assertContains(r, "The API key has been created!")
+
+
+        form_revoke = {"revoke_api_key":"1"}
+        r = self.client.post("/accounts/profile/", form_revoke)
+
+        assert r.status_code==200
+        self.alice.profile.refresh_from_db()
+        self.assertEqual(self.alice.profile.api_key, "")
+        self.assertContains(r, "The API key has been revoked!")
