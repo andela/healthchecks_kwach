@@ -36,5 +36,5 @@ class CheckModelTestCase(TestCase):
         check.status = "paused"
         self.assertFalse(check.in_grace_period())
 
-        check = Check()
-        self.assertFalse(check.in_grace_period())
+        check.status = "new"
+        self.assertTrue(not check.in_grace_period())
