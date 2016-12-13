@@ -73,6 +73,4 @@ class ListChecksTestCase(BaseTestCase):
             self.assertNotEqual(check["name"], "Bob 1")
             self.assertEqual(r.status_code,200)
 
-
-
     ### Test that it accepts an api_key in the request
