@@ -37,4 +37,4 @@ class CheckModelTestCase(TestCase):
         self.assertFalse(check.in_grace_period())
 
         check.status = "new"
-        self.assertTrue(not check.in_grace_period())
+        self.assertFalse(check.in_grace_period())
