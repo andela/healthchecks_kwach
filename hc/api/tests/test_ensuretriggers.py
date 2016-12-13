@@ -26,4 +26,5 @@ class EnsureTriggersTestCase(TestCase):
         check.last_ping += timedelta(days=1)
         check.save()
         check.refresh_from_db()
+        
         assert alert_after < check.alert_after
