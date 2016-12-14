@@ -75,8 +75,24 @@ class CreateCheckTestCase(BaseTestCase):
         self.post({"api_key": "abc", "name": False},
                   expected_error="name is not a string")
 
-    def test_for_the_assignment_of_channels(self):
-        pass
+    def test_timeout_is_too_small(self):
+        r = self.post({"api_key": "abc", "timeout": 1},
+                  expected_error="timeout is too small")
 
-    ### Test for the assignment of channels
-    ### Test for the 'timeout is too small' and 'timeout is too large' errors
+        j = r.json()
+        self.assertEqual(j["error"], "timeout is too small")
+
+    def test_timeout_is_too_large(self):
+        r = self.post({"api_key": "abc", "timeout": 3456567},
+                  expected_error="timeout is too large")
+
+        j = r.json()
+        self.assertEqual(j["error"], "timeout is too large")
+
+    def test_for_the_assignment_of_channels(self):
+        payload = json.dumps({"name": "Foo", "api_key": "abc"})
+        r = self.client.post(self.URL, payload, content_type="application/json")
+        obj = Check.objects.all()
+        #print(obj)
+        
+### Test for the assignment of channels
