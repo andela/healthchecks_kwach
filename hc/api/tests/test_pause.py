@@ -25,6 +25,12 @@ class PauseTestCase(BaseTestCase):
 
         self.assertEqual(r.status_code, 400)
 
+    def test_that_it_only_allows_post_requests(self):
+        check = Check(user=self.bob, status="up")
+        check.save()
+
+        url = "/api/v1/checks/%s/pause" % check.code
+
         g = self.client.get(url, "", content_type="application/json",
                              HTTP_X_API_KEY="abc")
         self.assertEqual(g.status_code, 405)
