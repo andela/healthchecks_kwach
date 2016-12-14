@@ -90,9 +90,5 @@ class CreateCheckTestCase(BaseTestCase):
         self.assertEqual(j["error"], "timeout is too large")
 
     def test_for_the_assignment_of_channels(self):
-        payload = json.dumps({"name": "Foo", "api_key": "abc"})
-        r = self.client.post(self.URL, payload, content_type="application/json")
-        obj = Check.objects.all()
-        #print(obj)
-        
-### Test for the assignment of channels
+        check = Check(user=self.alice, status="up" , name="Alice 1")
+        self.assertTrue(check, None)
