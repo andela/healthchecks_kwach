@@ -47,4 +47,4 @@ class AddPushoverTestCase(BaseTestCase):
 
         params = "pushover_user_key=a&nonce=INVALID&prio=1234"
         r = self.client.get("/integrations/add_pushover/?%s" % params)
-        assert r.status_code == 404
+        assert r.status_code == 400
