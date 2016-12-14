@@ -12,3 +12,10 @@ class AddCheckTestCase(BaseTestCase):
         assert Check.objects.count() == 1
 
     ### Test that team access works
+    def test_check_team_works(self):
+        url = "/checks/add/"
+        self.client.login(username="bob@example.org", password="password")
+        response = self.client.post(url)
+
+        added_check = Check.objects.get()
+        self.assertEqual(added_check.user, self.alice)
