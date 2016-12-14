@@ -39,7 +39,6 @@ class AddPushoverTestCase(BaseTestCase):
 
     ### Test that pushover validates priority
     def test_it_validates_priority(self):
-        url = '/integrations/add_pushover/'
         self.client.login(username="alice@example.org", password="password")
 
         session = self.client.session
