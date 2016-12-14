@@ -14,23 +14,21 @@ class CheckTokenTestCase(BaseTestCase):
         self.assertContains(response, "You are about to log in")
 
     def test_it_redirects(self):
-        response = self.client.post("/accounts/check_token/alice/secret-token/")
+        response = self.client.post(
+            "/accounts/check_token/alice/secret-token/")
         self.assertRedirects(response, "/checks/")
 
         # After login, token should be blank
         self.profile.refresh_from_db()
         self.assertEqual(self.profile.token, "")
 
-    ### Login and test it redirects already logged in
     def test_it_redirects_if_already_logged_in(self):
         self.client.login(username="alice@example.org", password="password")
         response = self.client.get("/accounts/check_token/alice/secret-token/")
-        assert response.status_code == 302
+        self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/checks/")
 
-    ### Login with a bad token and check that it redirects
     def test_login_with_wrong_token(self):
         response = self.client.post("/accounts/check_token/bob/secret-token/")
+        self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, "/accounts/login/")
-
-    ### Any other tests?
