@@ -53,7 +53,7 @@ class ProfileTestCase(BaseTestCase):
         ### Assert the existence of the member emails
         self.assertEqual(len(member_emails), 2) #Alice included as member
 
-        self.assertTrue("frank@example.org" in member_emails)
+        self.assertTrue(form["email"] in member_emails)
 
         ###Assert that the email was sent and check email content
         self.assertEqual(len(mail.outbox), 1)
