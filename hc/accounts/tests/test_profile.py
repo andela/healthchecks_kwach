@@ -11,8 +11,8 @@ class ProfileTestCase(BaseTestCase):
         self.client.login(username="alice@example.org", password="password")
 
         form = {"set_password": "1"}
-        r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 302
+        response = self.client.post("/accounts/profile/", form)
+        assert response.status_code == 302
 
         # profile.token should be set now
         self.alice.profile.refresh_from_db()
@@ -43,8 +43,8 @@ class ProfileTestCase(BaseTestCase):
         self.client.login(username="alice@example.org", password="password")
 
         form = {"invite_team_member": "1", "email": "frank@example.org"}
-        r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 200
+        response = self.client.post("/accounts/profile/", form)
+        assert response.status_code == 200
 
         member_emails = set()
         for member in self.alice.profile.member_set.all():
@@ -65,15 +65,15 @@ class ProfileTestCase(BaseTestCase):
         self.client.login(username="charlie@example.org", password="password")
 
         form = {"invite_team_member": "1", "email": "frank@example.org"}
-        r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 403
+        response = self.client.post("/accounts/profile/", form)
+        assert response.status_code == 403
 
     def test_it_removes_team_member(self):
         self.client.login(username="alice@example.org", password="password")
 
         form = {"remove_team_member": "1", "email": "bob@example.org"}
-        r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 200
+        response = self.client.post("/accounts/profile/", form)
+        assert response.status_code == 200
 
         self.assertEqual(Member.objects.count(), 0)
 
@@ -84,8 +84,8 @@ class ProfileTestCase(BaseTestCase):
         self.client.login(username="alice@example.org", password="password")
 
         form = {"set_team_name": "1", "team_name": "Alpha Team"}
-        r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 200
+        response = self.client.post("/accounts/profile/", form)
+        assert response.status_code == 200
 
         self.alice.profile.refresh_from_db()
         self.assertEqual(self.alice.profile.team_name, "Alpha Team")
@@ -94,8 +94,8 @@ class ProfileTestCase(BaseTestCase):
         self.client.login(username="charlie@example.org", password="password")
 
         form = {"set_team_name": "1", "team_name": "Charlies Team"}
-        r = self.client.post("/accounts/profile/", form)
-        assert r.status_code == 403
+        response = self.client.post("/accounts/profile/", form)
+        assert response.status_code == 403
 
     def test_it_switches_to_own_team(self):
         self.client.login(username="bob@example.org", password="password")
@@ -112,31 +112,31 @@ class ProfileTestCase(BaseTestCase):
         Check.objects.create(user=self.alice, tags="foo a-B_1  baz@")
         Check.objects.create(user=self.bob, tags="bobs-tag")
 
-        r = self.client.get("/accounts/profile/")
-        self.assertContains(r, "foo.svg")
-        self.assertContains(r, "a-B_1.svg")
+        response = self.client.get("/accounts/profile/")
+        self.assertContains(response, "foo.svg")
+        self.assertContains(response, "a-B_1.svg")
 
         # Expect badge URLs only for tags that match \w+
-        self.assertNotContains(r, "baz@.svg")
+        self.assertNotContains(response, "baz@.svg")
 
         # Expect only Alice's tags
-        self.assertNotContains(r, "bobs-tag.svg")
+        self.assertNotContains(response, "bobs-tag.svg")
 
     ### Test it creates and revokes API key
     def test_it_creates_and_revokes_api_key(self):
         self.client.login(username="alice@example.org", password="password")
         form = {"create_api_key":"1"}
-        r = self.client.post("/accounts/profile/", form)
+        response = self.client.post("/accounts/profile/", form)
 
-        assert r.status_code==200
+        assert response.status_code==200
         self.assertIsNotNone(self.alice.profile.api_key)
-        self.assertContains(r, "The API key has been created!")
+        self.assertContains(response, "The API key has been created!")
 
 
         form_revoke = {"revoke_api_key":"1"}
-        r = self.client.post("/accounts/profile/", form_revoke)
+        response = self.client.post("/accounts/profile/", form_revoke)
 
-        assert r.status_code==200
+        assert response.status_code==200
         self.alice.profile.refresh_from_db()
         self.assertEqual(self.alice.profile.api_key, "")
-        self.assertContains(r, "The API key has been revoked!")
+        self.assertContains(response, "The API key has been revoked!")
