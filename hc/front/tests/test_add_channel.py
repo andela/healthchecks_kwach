@@ -52,7 +52,7 @@ class AddChannelTestCase(BaseTestCase):
         self.client.login(username='bob@example.org', password="password")
         """ provide non existent kinds"""
         kinds = ("kdenno", "boo", "true", "else", "yes", "no")
-        for frag in kinds:
-            url = "/integrations/add_%s/" % frag
-            r = self.client.get(url)
-            self.assertEqual(r.status_code, 404)
+        for kind in kinds:
+            url = "/integrations/add_%s/" % kind
+            response = self.client.get(url)
+            self.assertEqual(response.status_code, 404)
