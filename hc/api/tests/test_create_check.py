@@ -11,12 +11,14 @@ class CreateCheckTestCase(BaseTestCase):
         super(CreateCheckTestCase, self).setUp()
 
     def post(self, data, expected_error=None):
+
         r = self.client.post(self.URL, json.dumps(data),
                              content_type="application/json")
 
         if expected_error:
             self.assertEqual(r.status_code, 400)
-            # Assert that the expected error is the response error
+
+            self.assertEqual(r.json()['error'], expected_error)
 
         return r
 
@@ -93,4 +95,5 @@ class CreateCheckTestCase(BaseTestCase):
 
     def test_for_the_assignment_of_channels(self):
         check = Check(user=self.alice, status="up", name="Alice 1")
+
         self.assertTrue(check, None)
