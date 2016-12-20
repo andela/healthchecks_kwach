@@ -39,16 +39,16 @@ class SendAlertsTestCase(BaseTestCase):
         # Expect no exceptions--
         Command().handle_one(check)
 
-    @patch("hc.api.management.commands.sendalerts.Command.handle_many")
-    def test_it_handles_many(self, mock):
-        checks = ["Check %d" % d for d in range(0, 5)]
-        for people in checks:
-            check = Check(user=self.alice, status="up", name="Alice 1")
-            # 1 day 30 minutes after ping the check is in grace period:
-            check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
-            check.save()
+        @patch("hc.api.management.commands.sendalerts.Command.handle_many")
+        def test_it_handles_many(self, mock):
+            checks = ["Check %d" % d for d in range(0, 5)]
+            for people in checks:
+                check = Check(user=self.alice, status="up", name="Alice 1")
+                # 1 day 30 minutes after ping the check is in grace period:
+                check.last_ping = timezone.now() - timedelta(days=1, minutes=30)
+                check.save()
 
-        # Expect no exceptions--
-        Command().handle_many()
+                # Expect no exceptions--
+                Command().handle_many()
 
-        self.assertTrue(Command().handle_many())
+                self.assertTrue(Command().handle_many())

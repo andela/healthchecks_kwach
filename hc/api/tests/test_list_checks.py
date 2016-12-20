@@ -37,14 +37,14 @@ class ListChecksTestCase(BaseTestCase):
 
         doc = r.json()
         self.assertTrue("checks" in doc)
-
+        print (doc)
         checks = {check["name"]: check for check in doc["checks"]}
         self.assertEqual(len(checks),2)
         self.assertIn('Alice 1',checks.keys() )
         self.assertEqual(checks[self.a1.name]['timeout'],3600)
         self.assertEqual(checks[self.a1.name]['grace'],900)
-        self.assertNotEqual(checks[self.a1.name]['pause_url'],0)
-        self.assertNotEqual(len(checks[self.a1.name]['ping_url']),0)
+        self.assertNotEqual(checks[self.a1.name]['pause_url'],None)
+        self.assertNotEqual(checks[self.a1.name]['ping_url'],None)
         self.assertEqual(checks[self.a1.name]['status'],"new")
         self.assertEqual(checks[self.a1.name]['last_ping'],self.now.isoformat())
         self.assertEqual(checks[self.a1.name]['n_pings'],1)
@@ -52,8 +52,8 @@ class ListChecksTestCase(BaseTestCase):
         self.assertIn('Alice 2',checks.keys() )
         self.assertEqual(checks[self.a2.name]['timeout'],86400)
         self.assertEqual(checks[self.a2.name]['grace'],3600)
-        self.assertNotEqual(checks[self.a2.name]['pause_url'],0)
-        self.assertNotEqual(len(checks[self.a2.name]['ping_url']),0)
+        self.assertNotEqual(checks[self.a2.name]['pause_url'],None)
+        self.assertNotEqual(len(checks[self.a2.name]['ping_url']),None)
         self.assertEqual(checks[self.a2.name]['status'],"up")
         self.assertEqual(checks[self.a2.name]['last_ping'],self.now.isoformat())
         self.assertEqual(checks[self.a2.name]['n_pings'],0)
