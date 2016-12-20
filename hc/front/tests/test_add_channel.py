@@ -46,6 +46,7 @@ class AddChannelTestCase(BaseTestCase):
         url = "/accounts/switch_team/alice"
         response = self.client.get(url)
         self.assertNotEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 301)
 
     ### Test that bad kinds don't work
     def test_bad_kinds(self):
