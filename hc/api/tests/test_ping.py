@@ -78,13 +78,13 @@ class PingTestCase(TestCase):
         r = self.client.get("/ping/%s/" % self.check.code)
 
         check = Check.objects.latest("id")
-        assert check.status == "up"
+        self.assertTrue(check.status == "up")
 
     def test_post_ping_works(self):
         r = self.client.post("/ping/%s/" % self.check.code)
-        assert r.status_code == 200
+        self.assertTrue( r.status_code == 200)
 
     def test_csrf_client_head(self):
         csrf_client = Client(enforce_csrf_checks=True)
         r = csrf_client.post("/ping/%s/" % self.check.code)
-        assert r.status_code == 200
+        self.assertTrue( r.status_code == 200)
