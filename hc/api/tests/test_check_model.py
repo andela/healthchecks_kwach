@@ -16,7 +16,7 @@ class CheckModelTestCase(TestCase):
     def test_empty_tags(self):
         check = Check()
 
-        check.tags = ""
+        check.tags = " "
         self.assertEqual(check.tags_list(), [])
 
     def test_status_works_with_grace_period(self):
