@@ -2,6 +2,7 @@ from hc.api.models import Check
 from hc.test import BaseTestCase
 
 
+
 class AddCheckTestCase(BaseTestCase):
 
     def test_it_works(self):
@@ -17,5 +18,5 @@ class AddCheckTestCase(BaseTestCase):
         self.client.login(username="bob@example.org", password="password")
         response = self.client.post(url)
 
-        added_check = Check.objects.get()
+        added_check = Check.objects.all().orderby('id').last
         self.assertEqual(added_check.user, self.alice)
