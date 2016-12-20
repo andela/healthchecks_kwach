@@ -18,5 +18,6 @@ class AddCheckTestCase(BaseTestCase):
         self.client.login(username="bob@example.org", password="password")
         response = self.client.post(url)
 
-        added_check = Check.objects.all().orderby('id').last
-        self.assertEqual(added_check.user, self.alice)
+        import pdb;
+        added_check = Check.objects.all().order_by('id').last().user
+        self.assertEqual(added_check, self.alice)
