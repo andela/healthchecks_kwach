@@ -12,6 +12,10 @@ class CheckModelTestCase(TestCase):
 
         check.tags = " foo  bar "
         self.assertEquals(check.tags_list(), ["foo", "bar"])
+
+    def test_empty_tags(self):
+        check = Check()
+
         check.tags = ""
         self.assertEqual(check.tags_list(), [])
 
@@ -24,7 +28,7 @@ class CheckModelTestCase(TestCase):
         self.assertTrue(check.in_grace_period())
         self.assertEqual(check.get_status(), "up")
 
-        ### The above 2 asserts fail. Make them pass
+        # The above 2 asserts fail. Make them pass
 
     def test_paused_check_is_not_in_grace_period(self):
         check = Check()
