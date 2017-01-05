@@ -20,6 +20,18 @@ class ProfileTestCase(BaseTestCase):
         ### Assert that the token is set
 
         ### Assert that the email was sent and check email content
+        
+    #test that the report is generated as per user prefered number of days
+    def test_it_saves_report_days(self):
+        self.client.login(username="alice@example.org", password="password")
+
+        form = {"update_reports_allowed": "1", "reports_allowed": False, "report_days": 30}
+        r = self.client.post("/accounts/profile/", form)
+
+        self.alice.profile.refresh_from_db()
+
+        self.assertEqual(self.alice.profile.report_days, 30)
+        self.assertEqual(self.alice.profile.reports_allowed, False)
 
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)

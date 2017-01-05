@@ -19,27 +19,61 @@
 </div>
 
 <div class="row">
-    <div class="col-sm-6">
-        <div class="panel panel-default">
-            <div class="panel-body settings-block">
-                <form method="post">
-                    {% csrf_token %}
-                    <h2>Monthly Reports</h2>
-                    <label>
+  <div class="col-sm-6">
+      <div class="panel panel-default">
+          <div class="panel-body settings-block">
+              <form method="post">
+                  {% csrf_token %}
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <label data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                         <input
                             name="reports_allowed"
                             type="checkbox"
-                            {% if profile.reports_allowed %} checked {% endif %}>
-                        Each month send me a summary of my checks
-                    </label>
-                    <button
-                        name="update_reports_allowed"
-                        type="submit"
-                        class="btn btn-default pull-right">Save</button>
-                </form>
-            </div>
-        </div>
-    </div>
+                             <h2>Subscribe Reports</h2>
+                      </label>
+                    </div>
+                  </div>
+                  <div id="collapseOne" aria-expanded="false" class="collapse">
+                    <div class="well">
+                      <h3>Daily Reports</h3>
+                      <label>
+                          <input
+                              value="1"
+                              name="report_days"
+                              type="radio"
+                              {% if profile.reports_allowed and profile.report_days == 1 %} checked {% endif %}>
+                          Each day send me a summary of my checks
+                      </label>
+                      <h3>Weekly Reports</h3>
+                      <label>
+                          <input
+                              name="report_days"
+                              type="radio"
+                              value="7"
+                              {% if profile.reports_allowed and profile.report_days == 7 %} checked {% endif %}>
+                          Each week send me a summary of my checks
+                      </label>
+                      <h3>Monthly Reports</h3>
+                      <label>
+                          <input
+                              name="report_days"
+                              type="radio"
+                              value="30"
+                              {% if profile.reports_allowed  and profile.report_days == 30 %} checked {% endif %}>
+                          Each month send me a summary of my checks
+                      </label>
+
+                    </div>
+                  </div>
+                  <button
+                      name="update_reports_allowed"
+                      type="submit"
+                      class="btn btn-default pull-right">Save</button>
+              </form>
+          </div>
+      </div>
+  </div>
 
     <div class="col-sm-6">
         <div class="panel panel-default">
