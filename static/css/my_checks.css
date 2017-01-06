@@ -30,8 +30,21 @@
 #period-slider.noUi-connect {
   background: #22bc66;
 }
+#alert-slider {
+    margin: 20px 50px 80px 50px;
+}
+
+#alert-slider.noUi-connect {
+  background: #FFD700;
+}
+
+
 
 #grace-slider {
+    margin: 20px 50px 110px 50px;
+}
+
+#alert-slider {
     margin: 20px 50px 110px 50px;
 }
 
@@ -39,7 +52,7 @@
   background: #f0ad4e;
 }
 
-#period-slider .noUi-value, #grace-slider .noUi-value {
+#period-slider .noUi-value, #grace-slider .noUi-value ,#alert-slider .noUi-value{
     width: 60px;
     margin-left: -30px;
 }

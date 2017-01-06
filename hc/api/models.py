@@ -73,10 +73,13 @@ class Check(models.Model):
             raise NotImplementedError("Unexpected status: %s" % self.status)
 
         errors = []
+        now = timezone.now()
         for channel in self.channel_set.all():
             error = channel.notify(self)
             if error not in ("", "no-op"):
                 errors.append((channel, error))
+            if self.last_ping + self.alert_after < now:
+                error = channel.notify(self)
 
         return errors
 

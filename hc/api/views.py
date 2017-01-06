@@ -62,6 +62,10 @@ def checks(request):
             check.timeout = td(seconds=request.json["timeout"])
         if "grace" in request.json:
             check.grace = td(seconds=request.json["grace"])
+        #addition of alert value
+        if "alert" in request.json:
+            check.alert_after = td(seconds=request.json["alert"])
+
 
         check.save()
 
@@ -106,9 +110,21 @@ def badge(request, username, signature, tag):
 
         if status == "up" and check.in_grace_period():
             status = "late"
+            # changed code
+            ctx = {     "checks": self.user.check_set.order_by("created"),
+                        "now": now,
+                        "unsub_link": unsub_link
+                    }
+            emails.alert(self.user.email, ctx)
 
         if check.get_status() == "down":
             status = "down"
+            # changed code
+            ctx = {     "checks": self.user.check_set.order_by("created"),
+                        "now": now,
+                        "unsub_link": unsub_link
+                    }
+            emails.alert(self.user.email, ctx)
             break
 
     svg = get_badge_svg(tag, status)
