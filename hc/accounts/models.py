@@ -20,7 +20,7 @@ class Profile(models.Model):
     team_access_allowed = models.BooleanField(default=False)
     next_report_date = models.DateTimeField(null=True, blank=True)
     reports_allowed = models.BooleanField(default=True)
-    report_days = models.IntegerField(default=7)
+    report_days = models.IntegerField(default=30)
     ping_log_limit = models.IntegerField(default=100)
     token = models.CharField(max_length=128, blank=True)
     api_key = models.CharField(max_length=128, blank=True)

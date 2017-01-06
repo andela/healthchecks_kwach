@@ -20,18 +20,40 @@ class ProfileTestCase(BaseTestCase):
         ### Assert that the token is set
 
         ### Assert that the email was sent and check email content
-        
-    #test that the report is generated as per user prefered number of days
-    def test_it_saves_report_days(self):
+
+    #test for monthly reports
+    def test_it_saves_report_days_monthly(self):
         self.client.login(username="alice@example.org", password="password")
 
-        form = {"update_reports_allowed": "1", "reports_allowed": False, "report_days": 30}
+        form = {"update_reports_allowed": "1", "reports_allowed": True, "report_days": 30}
         r = self.client.post("/accounts/profile/", form)
 
         self.alice.profile.refresh_from_db()
 
         self.assertEqual(self.alice.profile.report_days, 30)
         self.assertEqual(self.alice.profile.reports_allowed, False)
+
+    #test for daily reports
+    def test_it_saves_report_days_daily(self):
+        self.client.login(username="alice@example.org", password="password")
+
+        form = {"update_reports_allowed": "1", "reports_allowed": True, "report_days": 1}
+        r = self.client.post("/accounts/profile/", form)
+
+        self.alice.profile.refresh_from_db()
+
+        self.assertEqual(self.alice.profile.report_days, 1)
+
+    #test for weekly reports
+    def test_it_saves_report_days_weekly(self):
+        self.client.login(username="alice@example.org", password="password")
+
+        form = {"update_reports_allowed": "1", "reports_allowed": True, "report_days": 7}
+        r = self.client.post("/accounts/profile/", form)
+
+        self.alice.profile.refresh_from_db()
+
+        self.assertEqual(self.alice.profile.report_days, 7)
 
     def test_it_sends_report(self):
         check = Check(name="Test Check", user=self.alice)
